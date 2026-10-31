@@ -12,4 +12,4 @@ COPY --from=build /app/target/campusconnect-backend-1.0.0.jar app.jar
 RUN mkdir -p uploads/resumes && chown -R campusconnect:campusconnect /app
 USER campusconnect
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
