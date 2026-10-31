@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSphere AI - The AI Workforce Intelligence Platform</title>
+  <meta name="description" content="Transform HR Operations with Autonomous AI. Automate recruitment, payroll, attendance, performance, and employee lifecycle using AI Agents.">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide/dist/umd/lucide.min.js"></script>
+  
+  <!-- Styling -->
+  <link rel="stylesheet" href="src/css/index.css">
+</head>
+<body class="dark-theme">
+  <!-- Application Container -->
+  <div id="app-root">
+    <!-- Viewports are dynamically injected here by the router -->
+    <div id="loading-screen" class="loading-screen">
+      <div class="spinner"></div>
+      <div class="loading-text">Initializing WorkSphere AI...</div>
+    </div>
+  </div>
+
+  <!-- Global Modal Container -->
+  <div id="global-modal" class="modal-overlay hidden">
+    <div class="modal-content glassmorphism">
+      <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      <div id="modal-body-content"></div>
+    </div>
+  </div>
+
+  <!-- Global Notification Toast -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Main Application Logic -->
+  <script type="module" src="src/js/app.js"></script>
+</body>
+</html>
