@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: campusconnect_mysql
+    environment:
+      MYSQL_DATABASE: campusconnect
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-campusconnect}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD:-campusconnect}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: campusconnect_backend
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: campusconnect
+      DB_USERNAME: root
+      DB_PASSWORD: ${DB_PASSWORD:-campusconnect}
+      JWT_SECRET: ${JWT_SECRET:-changeme_in_production_at_least_64_chars_long_secret_key}
+      JWT_EXPIRATION_MS: 86400000
+      FRONTEND_URL: http://localhost:5173
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+  frontend:
+    build: ./frontend
+    container_name: campusconnect_frontend
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
